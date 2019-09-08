@@ -8,8 +8,8 @@ String client_secret = "HSSfIZ8C065zoHqUYlIS3umZOD6vCSpqzU0sTDmd58-l9tFazsTurcqa
 String client_access_token = "_WZISk_ww6LOUljNXjLykVXv5RjRmH9thaG-tHbIYFjRnkmAm897Xkxy7tseGiUG";
 
 //Identifiants Spotify
-String clientID = "7e421573603e445bacbe6b5dc300a581";
-String clientSecret = "c83c3604f9dd4f90a0ceb8e04e89dfa9";
+String clientID = "b901fe7590da4cc28fd79b0c5c53f1b5";
+String clientSecret = "5ee0a23854e64ae0bf0bed1db0ce5a77";
 
 //Autres infos
 String GeniusUrl = "https://api.genius.com";
@@ -27,7 +27,8 @@ void setup() {
   rect(0, 290, 400, 10);
   rect(390, 0, 10, 300);
   
-  getSongData("Ottoman", "Vampire Weekend");
+  getSongData("Nikes", "Frank Ocean");
+  getLyrics("datas/genius_data.json");
 }
 
 
@@ -62,11 +63,24 @@ void getSongData(String song, String artist){
   String ID64 = DatatypeConverter.printBase64Binary(ID.getBytes());
   tokenRequest.addHeader("Authorization", "Basic " + ID64);
     
-  tokenRequest.send();
+  //tokenRequest.send();
   
-  println(parseJSONObject(tokenRequest.getContent()));
+  //println(parseJSONObject(tokenRequest.getContent()));
   
   //Creating the request to get the data
   
   //spotifyRequest.send();
+}
+
+void getLyrics(String path) {
+  //First we get the url of the song 
+  String songURL = loadJSONObject(path).getJSONObject("result").getString("url");
+  
+  //We get the HTML of the genius page of the song
+  GetRequest genius = new GetRequest(songURL);
+  genius.send();
+  
+  println(genius.getContent());
+  
+  saveStrings("datas/songHTML.txt", split(genius.getContent(), "\n"));
 }
