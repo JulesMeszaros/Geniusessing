@@ -1,5 +1,6 @@
 import http.requests.*;
 import javax.xml.bind.DatatypeConverter;
+import interfascia.*;
 
 //Identifiants Genius
 String redirect_uri = "http://www.google.com";
@@ -16,71 +17,15 @@ String GeniusUrl = "https://api.genius.com";
 String SpotifyUrl = "https://api.spotify.com/v1";
 
 void setup() {
-  //screen
+  //screen setings
   background(255, 252, 100);
-  size(400, 300);
+  size(1000, 1000);
   
-  //borders
-  fill(0);
-  rect(0, 0, 400, 10);
-  rect(0, 0, 10, 300);
-  rect(0, 290, 400, 10);
-  rect(390, 0, 10, 300);
-  
-  getSongData("Nikes", "Frank Ocean");
-  getLyrics("datas/genius_data.json");
+  getSongData("see you again", "tyler the creator");
+  getLyrics("song_datas/genius_data.json");
+  lyricsArray("song_datas/lyrics.txt");
 }
 
-
-void getSongData(String song, String artist){
-  /*GENIUS*/
+void draw(){
   
-  //Convertying inputs
-  song = song.replace(" ", "%20");
-  artist = artist.replace(" ", "%20");
-  
-  println(song);
-  println(artist);
-  
-  //Requesting results on genius.com for the given input
-  GetRequest searchSongRequest = new GetRequest(GeniusUrl + "/search?q=" + song + "%20" + artist);
-  searchSongRequest.addHeader("Authorization", "Bearer " + client_access_token);
-  
-  searchSongRequest.send();
-  
-  //Saving the first results in a JSON file
-  JSONObject results = parseJSONObject(searchSongRequest.getContent()).getJSONObject("response");
-  JSONObject bestResult = results.getJSONArray("hits").getJSONObject(0);
-  
-  saveJSONObject(bestResult, "datas/genius_data.json");
-  
-  /*SPOTIFY*/
-  
-  //Creating the request to get access token
-  PostRequest tokenRequest = new PostRequest(SpotifyUrl + "/api/token");
-  tokenRequest.addData("grant_type", "client_credentials");
-  String ID = clientID + ":" + clientSecret;
-  String ID64 = DatatypeConverter.printBase64Binary(ID.getBytes());
-  tokenRequest.addHeader("Authorization", "Basic " + ID64);
-    
-  //tokenRequest.send();
-  
-  //println(parseJSONObject(tokenRequest.getContent()));
-  
-  //Creating the request to get the data
-  
-  //spotifyRequest.send();
-}
-
-void getLyrics(String path) {
-  //First we get the url of the song 
-  String songURL = loadJSONObject(path).getJSONObject("result").getString("url");
-  
-  //We get the HTML of the genius page of the song
-  GetRequest genius = new GetRequest(songURL);
-  genius.send();
-  
-  println(genius.getContent());
-  
-  saveStrings("datas/songHTML.txt", split(genius.getContent(), "\n"));
 }
