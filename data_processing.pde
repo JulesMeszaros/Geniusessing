@@ -15,7 +15,7 @@ void getSongData(String song, String artist){
   JSONObject results = parseJSONObject(searchSongRequest.getContent()).getJSONObject("response");
   JSONObject bestResult = results.getJSONArray("hits").getJSONObject(0);
   
-  saveJSONObject(bestResult, "datas/genius_data.json");
+  saveJSONObject(bestResult, "song_datas/genius_data.json");
   
   /*SPOTIFY*/
   
@@ -106,5 +106,28 @@ StringList lyricsArray(String path){
       songArray.append(word);
     }
   }
+  
+  println(songArray.size());
+  
   return songArray;
+}
+
+void drawGrid(StringList lyrics){
+  int wordCount = lyrics.size();
+  
+  int wordCount1 = 1;
+  int wordCount2 = 1;
+  
+  for(String word1 : lyrics){
+   for(String word2 : lyrics){
+    if(lyrics.get(wordCount1 -1) == lyrics.get(wordCount2 -1)){
+     //println(lyrics.get(wordCount1 -1), lyrics.get(wordCount2 -1), ": yes"); 
+    } else {
+      //println(lyrics.get(wordCount1 -1), lyrics.get(wordCount2 -1), ": no");
+   }
+   wordCount2 ++;
+  }
+  wordCount2 = 1;
+  wordCount1 ++;
+ }
 }
