@@ -69,7 +69,7 @@ void getLyrics(String path) {
     lyricsList.remove(0);
   }
   
-  for(int i = 1; i<=9; i++){
+  for(int i = 1; i<=8; i++){
     lyricsList.remove(lyricsList.size() - 1);
   }
   
@@ -107,7 +107,7 @@ StringList lyricsArray(String path){
     }
   }
   
-  println(songArray.size());
+  songArray.lower();
   
   return songArray;
 }
@@ -115,19 +115,24 @@ StringList lyricsArray(String path){
 void drawGrid(StringList lyrics){
   int wordCount = lyrics.size();
   
-  int wordCount1 = 1;
-  int wordCount2 = 1;
+  int count1 = 1;
+  int count2 = 1;
   
-  for(String word1 : lyrics){
-   for(String word2 : lyrics){
-    if(lyrics.get(wordCount1 -1) == lyrics.get(wordCount2 -1)){
-     //println(lyrics.get(wordCount1 -1), lyrics.get(wordCount2 -1), ": yes"); 
-    } else {
-      //println(lyrics.get(wordCount1 -1), lyrics.get(wordCount2 -1), ": no");
-   }
-   wordCount2 ++;
+  for(String word : lyrics){
+    for(String word2 : lyrics){  
+      if(word.equals(word2)){
+        drawTile(count1 - 1, count2 -1, width, wordCount-1);
+      }
+      count2 ++;
+    }
+    count2 = 1;
+    count1 ++;
   }
-  wordCount2 = 1;
-  wordCount1 ++;
- }
+}
+
+void drawTile(int x, int y, int gridWidth, int nbrOfTiles){
+  int tileWidth = gridWidth/nbrOfTiles;
+  fill(0);
+  noStroke();
+  square(x*tileWidth, y*tileWidth, tileWidth);
 }

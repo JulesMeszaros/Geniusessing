@@ -19,11 +19,13 @@ String SpotifyUrl = "https://api.spotify.com/v1";
 void setup() {
   //screen setings
   background(255, 252, 100);
-  size(600, 600);
+  size(650, 650);
   
-  getSongData("run", "vampire weekend");
+  getSongData("gucci gang", "");
   getLyrics("song_datas/genius_data.json");
   drawGrid(lyricsArray("song_datas/lyrics.txt"));
+  
+  line(0, 700, width, 700);
 }
 
 void draw(){
